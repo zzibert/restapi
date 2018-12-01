@@ -1,4 +1,5 @@
 const express = require('express')
+const Ninja = require('../models/ninja')
 
 const router = express.Router()
 
@@ -9,8 +10,13 @@ router.get('/ninjas', (req, res) => {
 
 //add a new ninja to the db
 router.post('/ninjas', (req, res) => {
-    res.send(req.body)
-    console.log(req.body)
+    Ninja.create(req.body)
+    .then((ninja) => {
+        res.send(ninja)
+    })
+    .catch(err => {
+        res.end(err.status)
+    })
 })
 
 //update a ninja in the database
